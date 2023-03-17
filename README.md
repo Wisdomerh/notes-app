@@ -19,3 +19,17 @@ To use this app, simply run the main() function in the NotesApp.kt file. The app
 
 ##Contributing
 Contributions to this app are welcome. If you find a bug or want to suggest a new feature, please create an issue in the repository. If you want to contribute code, please fork the repository and create a pull request.
+OpenNoteScanner
+Build Status
+
+This little application provides a way on scanning handwritten notes and printed documents.
+
+It automatically detect the edge of the paper over a contrastant surface.
+
+When using the printed special page template it automatically detects the QR Code printed on the bottom right corner and scans the page immediately.
+
+After the page is detected, it compensates any perspective from the image adjusting it to a 90 degree top view and saves it on a folder on the device.
+
+It is also possible to launch the application from any other application that asks for a picture, just make sure that there is no default application associated with this action.
+
+Screenshots
