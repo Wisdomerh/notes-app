@@ -1,5 +1,5 @@
 ## Kotlin Notes App 
-*Overview
+### Overview
 This is a console-based Kotlin Notes App that provides basic CRUD (Create, Read, Update, Delete) functionalities for managing notes. This app is built on top of Kotlin programming language and provides a menu-driven user interface.
 
 ## Features
