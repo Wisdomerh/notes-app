@@ -5,6 +5,7 @@ import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.lang.System.exit
+import java.time.LocalDateTime
 
 private val logger = KotlinLogging.logger {}
 private val noteAPI = NoteAPI()
@@ -51,7 +52,7 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, LocalDateTime.now() ))
 
     if (isAdded) {
         println("Added Successfully")
@@ -60,20 +61,23 @@ fun addNote(){
     }
 }
 
-fun listNotes(){
+fun listNotes() {
     val option = ScannerInput.readNextInt("""
-        > ----------------------------------
-        > |        LIST NOTES MENU          |
-        > ----------------------------------
-        > | OPTIONS:                        |
-        > |   1) List all notes             |
-        > |   2) List active notes          |
-        > |   3) List archived notes        |
-        > |   4) Number of active notes     |
-        > |   5) Number of archived notes   |
-        > ----------------------------------
-        > |   0) Back to main menu          |
-        > ----------------------------------
+        > -----------------------------------
+        > |        LIST NOTES MENU           |
+        > -----------------------------------
+        > | OPTIONS:                         |
+        > |   1) List all notes              |
+        > |   2) List active notes           |
+        > |   3) List archived notes         |
+        > |   4) Number of active notes      |
+        > |   5) Number of archived notes    |
+        > |   6) List notes by priority      |
+        > |   7) Number of notes by priority |
+        > |   8) List notes by date created  |
+        > -----------------------------------
+        > |   0) Back to main menu           |
+        > -----------------------------------
         > ==>> """.trimMargin(">"))
 
     when (option) {
@@ -82,11 +86,19 @@ fun listNotes(){
         3 -> println(noteAPI.listArchivedNotes())
         4 -> println("Number of active notes: ${noteAPI.numberOfActiveNotes()}")
         5 -> println("Number of archived notes: ${noteAPI.numberOfArchivedNotes()}")
+        6 -> {
+            val priority = ScannerInput.readNextInt("Enter priority level (1-5): ")
+            println(noteAPI.listNotesBySelectedPriority(priority))
+        }
+        7 -> {
+            val priority = ScannerInput.readNextInt("Enter priority level (1-5): ")
+            println("Number of notes with priority $priority: ${noteAPI.numberOfNotesByPriority(priority)}")
+        }
+        8 -> println(noteAPI.listNotesByDateCreated())
         0 -> return
-        else -> println("Invalid option entered: ${option}")
+        else -> println("Invalid option entered: $option")
     }
 }
-
 
 
 

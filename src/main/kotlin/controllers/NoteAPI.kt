@@ -1,9 +1,11 @@
 package controllers
 
 import models.Note
+import java.time.format.DateTimeFormatter
 
 class NoteAPI {
     private var notes = ArrayList<Note>()
+
     fun add(note: Note): Boolean {
         return notes.add(note)
     }
@@ -19,6 +21,7 @@ class NoteAPI {
             listOfNotes
         }
     }
+
     fun numberOfNotes(): Int {
         return notes.size
     }
@@ -68,6 +71,44 @@ class NoteAPI {
         return notes.count { !it.isNoteArchived }
     }
 
+    fun listNotesBySelectedPriority(priority: Int): String {
 
+            return if (notes.isEmpty()) {
+                "No notes stored"
+            } else {
+                var listOfNotes = ""
+                for (i in notes.indices) {
+                    if (notes[i].notePriority == priority) {
+                        listOfNotes +=
+                            """$i: ${notes[i]}
+                        """.trimIndent()
+                    }
+                }
+                if (listOfNotes.equals("")) {
+                    "No notes with priority $priority stored"
+                } else {
+                    "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
+                }
+            }
+    }
+
+    fun numberOfNotesByPriority(priority: Int): Int {
+        return notes.count { it.notePriority == priority }
+    }
+
+    fun listNotesByDateCreated(): String {
+        val sortedNotes = notes.sortedBy { it.dateCreated }
+        return if (sortedNotes.isEmpty()) {
+            "No notes stored"
+        } else {
+            var listOfNotes = ""
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            for (i in sortedNotes.indices) {
+                val note = sortedNotes[i]
+                val formattedDate = note.dateCreated?.format(formatter)
+                listOfNotes += "${i}:$note Created on $formattedDate \n"
+            }
+            listOfNotes
+        }
+    }
 }
-
