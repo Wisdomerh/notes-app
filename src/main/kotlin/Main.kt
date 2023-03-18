@@ -61,9 +61,33 @@ fun addNote(){
 }
 
 fun listNotes(){
-    //logger.info { "listNotes() function invoked" }
-    println(noteAPI.listAllNotes())
+    val option = ScannerInput.readNextInt("""
+        > ----------------------------------
+        > |        LIST NOTES MENU          |
+        > ----------------------------------
+        > | OPTIONS:                        |
+        > |   1) List all notes             |
+        > |   2) List active notes          |
+        > |   3) List archived notes        |
+        > |   4) Number of active notes     |
+        > |   5) Number of archived notes   |
+        > ----------------------------------
+        > |   0) Back to main menu          |
+        > ----------------------------------
+        > ==>> """.trimMargin(">"))
+
+    when (option) {
+        1 -> println(noteAPI.listAllNotes())
+        2 -> println(noteAPI.listActiveNotes())
+        3 -> println(noteAPI.listArchivedNotes())
+        4 -> println("Number of active notes: ${noteAPI.numberOfActiveNotes()}")
+        5 -> println("Number of archived notes: ${noteAPI.numberOfArchivedNotes()}")
+        0 -> return
+        else -> println("Invalid option entered: ${option}")
+    }
 }
+
+
 
 
 fun updateNote(){

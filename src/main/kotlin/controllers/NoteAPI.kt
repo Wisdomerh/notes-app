@@ -34,6 +34,40 @@ class NoteAPI {
         return (index >= 0 && index < list.size)
     }
 
+    fun listActiveNotes(): String {
+        val activeNotes = notes.filter { !it.isNoteArchived }
+        return if (activeNotes.isEmpty()) {
+            "No active notes stored"
+        } else {
+            var listOfNotes = ""
+            for (i in activeNotes.indices) {
+                listOfNotes += "${i}: ${activeNotes[i]} \n"
+            }
+            listOfNotes
+        }
+    }
+
+    fun listArchivedNotes(): String {
+        val archivedNotes = notes.filter { it.isNoteArchived }
+        return if (archivedNotes.isEmpty()) {
+            "No archived notes stored"
+        } else {
+            var listOfNotes = ""
+            for (i in archivedNotes.indices) {
+                listOfNotes += "${i}: ${archivedNotes[i]} \n"
+            }
+            listOfNotes
+        }
+    }
+
+    fun numberOfArchivedNotes(): Int {
+        return notes.count { it.isNoteArchived }
+    }
+
+    fun numberOfActiveNotes(): Int {
+        return notes.count { !it.isNoteArchived }
+    }
+
 
 }
 
