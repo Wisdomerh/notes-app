@@ -1,6 +1,7 @@
 package controllers
 
 import models.Note
+import java.time.format.DateTimeFormatter
 
 class NoteAPI {
     private var notes = ArrayList<Note>()
@@ -93,5 +94,21 @@ class NoteAPI {
 
     fun numberOfNotesByPriority(priority: Int): Int {
         return notes.count { it.notePriority == priority }
+    }
+
+    fun listNotesByDateCreated(): String {
+        val sortedNotes = notes.sortedBy { it.dateCreated }
+        return if (sortedNotes.isEmpty()) {
+            "No notes stored"
+        } else {
+            var listOfNotes = ""
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            for (i in sortedNotes.indices) {
+                val note = sortedNotes[i]
+                val formattedDate = note.dateCreated?.format(formatter)
+                listOfNotes += "${i}:$note Created on $formattedDate \n"
+            }
+            listOfNotes
+        }
     }
 }
