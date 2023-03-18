@@ -60,7 +60,7 @@ fun addNote(){
     }
 }
 
-fun listNotes(){
+fun listNotes() {
     val option = ScannerInput.readNextInt("""
         > ----------------------------------
         > |        LIST NOTES MENU          |
@@ -71,6 +71,8 @@ fun listNotes(){
         > |   3) List archived notes        |
         > |   4) Number of active notes     |
         > |   5) Number of archived notes   |
+        > |   6) List notes by priority     |
+        > |   7) Number of notes by priority |
         > ----------------------------------
         > |   0) Back to main menu          |
         > ----------------------------------
@@ -82,11 +84,18 @@ fun listNotes(){
         3 -> println(noteAPI.listArchivedNotes())
         4 -> println("Number of active notes: ${noteAPI.numberOfActiveNotes()}")
         5 -> println("Number of archived notes: ${noteAPI.numberOfArchivedNotes()}")
+        6 -> {
+            val priority = ScannerInput.readNextInt("Enter priority level (1-5): ")
+            println(noteAPI.listNotesBySelectedPriority(priority))
+        }
+        7 -> {
+            val priority = ScannerInput.readNextInt("Enter priority level (1-5): ")
+            println("Number of notes with priority $priority: ${noteAPI.numberOfNotesByPriority(priority)}")
+        }
         0 -> return
-        else -> println("Invalid option entered: ${option}")
+        else -> println("Invalid option entered: $option")
     }
 }
-
 
 
 

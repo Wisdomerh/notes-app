@@ -4,6 +4,7 @@ import models.Note
 
 class NoteAPI {
     private var notes = ArrayList<Note>()
+
     fun add(note: Note): Boolean {
         return notes.add(note)
     }
@@ -19,6 +20,7 @@ class NoteAPI {
             listOfNotes
         }
     }
+
     fun numberOfNotes(): Int {
         return notes.size
     }
@@ -68,6 +70,28 @@ class NoteAPI {
         return notes.count { !it.isNoteArchived }
     }
 
+    fun listNotesBySelectedPriority(priority: Int): String {
 
+            return if (notes.isEmpty()) {
+                "No notes stored"
+            } else {
+                var listOfNotes = ""
+                for (i in notes.indices) {
+                    if (notes[i].notePriority == priority) {
+                        listOfNotes +=
+                            """$i: ${notes[i]}
+                        """.trimIndent()
+                    }
+                }
+                if (listOfNotes.equals("")) {
+                    "No notes with priority $priority stored"
+                } else {
+                    "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
+                }
+            }
+    }
+
+    fun numberOfNotesByPriority(priority: Int): Int {
+        return notes.count { it.notePriority == priority }
+    }
 }
-
