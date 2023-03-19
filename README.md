@@ -1,21 +1,22 @@
-## Kotlin Notes App 
-### Overview
-This is a console-based Kotlin Notes App that provides basic CRUD (Create, Read, Update, Delete) functionalities for managing notes. This app is built on top of Kotlin programming language and provides a menu-driven user interface.
+# Notes App
+### Description
+ -The Notes App is a menu-driven console app that allows users to create, manage, and search through a collection of notes. The app is built in Kotlin and includes various features such as logging capabilities, persistence of notes, and JUnit tests.
 
-## Features
-* Add Note: Add a new note to the app.
-* List Notes: List all notes available in the app.
-* Update Note: Update an existing note in the app.
-* Delete Note: Delete a note from the app.
-The note model has not been implemented yet, and this app only provides the menu structure. However, you can extend the app by implementing the Note model to store and manage notes in the app.
+## Releases
+### Version 1.0
+- The first version of the app included menu items for adding, listing, updating, and deleting notes. The app did not include a note model yet, and the menu structure was a skeleton. The app also included logging capabilities through MicroUtils Kotlin-Logging and a ScannerInput utility for robust user input/output.
 
-## Dependencies
-The following dependencies are used in this app:
+### Version 2.0
+- Version 2.0 of the app included an ArrayList collection of notes, adding and listing functionality, and JUnit tests for the new NoteAPI class.
 
-* MicroUtils Kotlin-Logging: Provides logging capabilities for the app.
-* ScannerInput: A utility for providing robust user input/output functionality.
-Usage
-To use this app, simply run the main() function in the NotesApp.kt file. The app will start running and prompt you with a menu that you can use to manage your notes.
+### Version 3.0
+- Version 3.0 of the app introduced the ability to update, delete, and archive notes in the collection. The app also included persistence of notes to/from XML/JSON/YAML and the ability to list all, active or archived notes.
 
-## Contributing
-Contributions to this app are welcome. If you find a bug or want to suggest a new feature, please create an issue in the repository. If you want to contribute code, please fork the repository and create a pull request.
+### Version 4.0
+- The latest version of the app, Version 4.0, includes several updates and improvements. The app has been refactored to use lambdas in the numberOf methods in NoteAPI. The lambda list has also been refactored. The app now includes search by description functionality and additional utility classes, along with JUnit tests where appropriate.
+
+## How to Use
+- To use the Notes App, simply download the app and run it from the command line. Follow the prompts to create, manage, and search through your collection of notes.
+
+## Contributors
+-The Notes App was created by Wisdom Erhimwionsobo. Contributions and feedback are welcome.
