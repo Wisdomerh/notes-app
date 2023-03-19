@@ -20,6 +20,9 @@ dependencies {
     implementation("com.thoughtworks.xstream:xstream:1.4.18")
     implementation("org.codehaus.jettison:jettison:1.4.1")
 
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.5")
+    implementation ("com.fasterxml.jackson.core:jackson-core:2.13.0")
+    implementation ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0")
 
 }
 
