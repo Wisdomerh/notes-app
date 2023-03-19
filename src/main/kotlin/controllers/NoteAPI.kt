@@ -130,14 +130,16 @@ class NoteAPI(serializerType: Serializer){
         serializer.write(notes)
     }
 
-    fun archiveNote(index: Int): Boolean {
-        val note = findNote(index)
-        return if (note != null) {
-            note.isNoteArchived = true
-            true
-        } else {
-            false
-        }
-    }
+    fun archiveNote(index: Int): Boolean = findNote(index)?.run {
+        isNoteArchived = true
+        true
+    } ?: false
+
+    fun searchByTitle(searchString : String) =
+        notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true)}
+            .joinToString (separator = "\n") {
+                    note ->  notes.indexOf(note).toString() + ": " + note.toString() }
+
+
 
 }
