@@ -14,17 +14,11 @@ class NoteAPI(serializerType: Serializer){
         return notes.add(note)
     }
 
-    fun listAllNotes(): String {
-        return if (notes.isEmpty()) {
-            "No notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in notes.indices) {
-                listOfNotes += "${i}: ${notes[i]} \n"
-            }
-            listOfNotes
-        }
-    }
+    fun listAllNotes(): String =
+        if  (notes.isEmpty()) "No notes stored"
+        else notes.joinToString (separator = "\n") { note ->
+            notes.indexOf(note).toString() + ": " + note.toString() }
+
 
     fun numberOfNotes(): Int {
         return notes.size
@@ -43,80 +37,51 @@ class NoteAPI(serializerType: Serializer){
 
     fun listActiveNotes(): String {
         val activeNotes = notes.filter { !it.isNoteArchived }
-        return if (activeNotes.isEmpty()) {
-            "No active notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in activeNotes.indices) {
-                listOfNotes += "${i}: ${activeNotes[i]} \n"
-            }
-            listOfNotes
-        }
+        return activeNotes.takeIf { it.isNotEmpty() }
+            ?.joinToString(separator = "\n") { "${activeNotes.indexOf(it)}: $it" }
+            ?: "No active notes stored"
     }
+
 
     fun listArchivedNotes(): String {
         val archivedNotes = notes.filter { it.isNoteArchived }
         return if (archivedNotes.isEmpty()) {
             "No archived notes stored"
         } else {
-            var listOfNotes = ""
-            for (i in archivedNotes.indices) {
-                listOfNotes += "${i}: ${archivedNotes[i]} \n"
-            }
-            listOfNotes
+            archivedNotes.mapIndexed { index, note -> "$index: $note" }
+                .joinToString("\n")
         }
     }
 
+
     fun numberOfArchivedNotes(): Int {
-        var counter = 0
-        for (note in notes) {
-            if (note.isNoteArchived) {
-                counter++
-            }
-        }
-        return counter
+        return notes.count { it.isNoteArchived }
     }
+
 
 
     fun numberOfActiveNotes(): Int {
-        return notes.stream()
-            .filter{note: Note -> !note.isNoteArchived}
-            .count()
-            .toInt()
+        return notes.count { !it.isNoteArchived }
     }
+
 
 
 
     fun listNotesBySelectedPriority(priority: Int): String {
+        val notesWithPriority = notes.filter { it.notePriority == priority }
 
-            return if (notes.isEmpty()) {
-                "No notes stored"
-            } else {
-                var listOfNotes = ""
-                for (i in notes.indices) {
-                    if (notes[i].notePriority == priority) {
-                        listOfNotes +=
-                            """$i: ${notes[i]}
-                        """.trimIndent()
-                    }
-                }
-                if (listOfNotes.equals("")) {
-                    "No notes with priority $priority stored"
-                } else {
-                    "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
-                }
-            }
+        return if (notesWithPriority.isEmpty()) {
+            "No notes with priority $priority stored"
+        } else {
+            val listOfNotes = notesWithPriority.joinToString(separator = "\n") { "${notes.indexOf(it)}: $it" }
+            "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
+        }
     }
 
     fun numberOfNotesByPriority(priority: Int): Int {
-        var counter = 0
-        for (note in notes) {
-            if (note.notePriority == priority) {
-                counter++
-            }
-        }
-        return counter
+        return notes.count { it.notePriority == priority }
     }
+
 
 
     fun listNotesByDateCreated(): String {
@@ -124,26 +89,24 @@ class NoteAPI(serializerType: Serializer){
         return if (sortedNotes.isEmpty()) {
             "No notes stored"
         } else {
-            var listOfNotes = ""
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            for (i in sortedNotes.indices) {
-                val note = sortedNotes[i]
+            sortedNotes.mapIndexed { i, note ->
                 val formattedDate = note.dateCreated?.format(formatter)
-                listOfNotes += "${i}:$note Created on $formattedDate \n"
-            }
-            listOfNotes
+                "$i: $note Created on $formattedDate \n"
+            }.joinToString(separator = "")
         }
     }
+
     fun deleteNote(indexToDelete: Int): Note? {
         return if (isValidListIndex(indexToDelete, notes)) {
             notes.removeAt(indexToDelete)
         } else null
     }
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
-        //find the note object by the index number
+
         val foundNote = findNote(indexToUpdate)
 
-        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
+
         if ((foundNote != null) && (note != null)) {
             foundNote.noteTitle = note.noteTitle
             foundNote.notePriority = note.notePriority
@@ -151,7 +114,7 @@ class NoteAPI(serializerType: Serializer){
             return true
         }
 
-        //if the note was not found, return false, indicating that the update was not successful
+
         return false
     }
     fun isValidIndex(index: Int) :Boolean{
